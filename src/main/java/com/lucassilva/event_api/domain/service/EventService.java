@@ -3,6 +3,7 @@ package com.lucassilva.event_api.domain.service;
 import com.amazonaws.services.s3.AmazonS3;
 import com.lucassilva.event_api.domain.event.Event;
 import com.lucassilva.event_api.domain.event.EventRequestDTO;
+import com.lucassilva.event_api.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,9 @@ public class EventService {
     @Autowired
     private AmazonS3 s3Client;
 
+    @Autowired
+    private EventRepository eventRepository;
+
     @Value("${aws.bucket.name}")
     private String bucketName;
 
@@ -36,6 +40,9 @@ public class EventService {
         newEvent.setEventUrl(data.eventUrl());
         newEvent.setDate(new Date(data.date()));
         newEvent.setImgUrl(imgUrl);
+        newEvent.setRemote(data.remote());
+
+        eventRepository.save(newEvent);
 
         return newEvent;
     }
