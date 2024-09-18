@@ -5,7 +5,9 @@ import com.lucassilva.event_api.domain.event.Event;
 import com.lucassilva.event_api.domain.event.EventRequestDTO;
 import com.lucassilva.event_api.repositories.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AddressService {
     @Autowired
     private AddressRepository addressRepository;
