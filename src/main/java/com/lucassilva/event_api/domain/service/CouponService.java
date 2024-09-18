@@ -6,10 +6,12 @@ import com.lucassilva.event_api.domain.event.Event;
 import com.lucassilva.event_api.repositories.CouponRepository;
 import com.lucassilva.event_api.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.UUID;
 
+@Service
 public class CouponService {
 
     @Autowired
