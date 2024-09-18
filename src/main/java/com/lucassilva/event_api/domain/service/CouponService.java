@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -31,5 +32,10 @@ public class CouponService {
         coupon.setEvent(event);
 
         return couponRepository.save(coupon);
+    }
+
+    public List<Coupon> consultCoupons(UUID eventId, Date currentDate) {
+        //Spring Data implements methods based on naming convention so this translates into a query. Crazy stuff.
+        return couponRepository.findByEventIdAndValidAfter(eventId, currentDate);
     }
 }

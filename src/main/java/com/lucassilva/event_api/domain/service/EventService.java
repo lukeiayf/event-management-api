@@ -1,7 +1,9 @@
 package com.lucassilva.event_api.domain.service;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.lucassilva.event_api.domain.coupon.Coupon;
 import com.lucassilva.event_api.domain.event.Event;
+import com.lucassilva.event_api.domain.event.EventDetailsDTO;
 import com.lucassilva.event_api.domain.event.EventRequestDTO;
 import com.lucassilva.event_api.domain.event.EventResponseDTO;
 import com.lucassilva.event_api.repositories.EventRepository;
@@ -28,6 +30,9 @@ public class EventService {
 
     @Autowired
     private AddressService addressService;
+
+    @Autowired
+    private CouponService couponService;
 
     @Value("${aws.bucket.name}")
     private String bucketName;
@@ -122,5 +127,31 @@ public class EventService {
                         event.getImgUrl()
                 )
         ).stream().toList();
+    }
+
+    public EventDetailsDTO getEventDetails(UUID eventId) {
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new IllegalArgumentException("Event not found"));
+
+        List<Coupon> coupons = couponService.consultCoupons(eventId, new Date());
+
+        List<EventDetailsDTO.CouponDTO> couponDTOS = coupons.stream()
+                .map(coupon -> new EventDetailsDTO.CouponDTO(
+                    coupon.getCode(),
+                    coupon.getDiscount(),
+                    coupon.getValid()))
+                .toList();
+
+        return new EventDetailsDTO(
+                        event.getId(),
+                        event.getTitle(),
+                        event.getDescription(),
+                        event.getDate(),
+                        event.getAddress() != null ? event.getAddress().getCity() : "",
+                        event.getAddress() != null ? event.getAddress().getUf() : "",
+                        event.getEventUrl(),
+                        event.getImgUrl(),
+                        couponDTOS
+                );
+
     }
 }

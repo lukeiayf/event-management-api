@@ -1,6 +1,7 @@
 package com.lucassilva.event_api.controller;
 
 import com.lucassilva.event_api.domain.event.Event;
+import com.lucassilva.event_api.domain.event.EventDetailsDTO;
 import com.lucassilva.event_api.domain.event.EventRequestDTO;
 import com.lucassilva.event_api.domain.event.EventResponseDTO;
 import com.lucassilva.event_api.domain.service.EventService;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/event")
@@ -39,6 +41,12 @@ public class EventController {
     public ResponseEntity<List<EventResponseDTO>> getEvents(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         List<EventResponseDTO> allEvents = eventService.getUpcomingEvents(page, size);
         return ResponseEntity.ok(allEvents);
+    }
+
+    @GetMapping("/{eventId}")
+    public ResponseEntity<EventDetailsDTO> getEventDetails(@PathVariable UUID eventId){
+        EventDetailsDTO eventDetails = eventService.getEventDetails(eventId);
+        return ResponseEntity.ok(eventDetails);
     }
 
     @GetMapping("/filter")
