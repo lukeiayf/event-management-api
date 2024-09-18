@@ -44,7 +44,7 @@ public class EventController {
     }
 
     @GetMapping("/{eventId}")
-    public ResponseEntity<EventDetailsDTO> getEventDetails(@PathVariable UUID eventId){
+    public ResponseEntity<EventDetailsDTO> getEventDetails(@PathVariable UUID eventId) {
         EventDetailsDTO eventDetails = eventService.getEventDetails(eventId);
         return ResponseEntity.ok(eventDetails);
     }
@@ -60,5 +60,11 @@ public class EventController {
     ) {
         List<EventResponseDTO> events = eventService.getFilteredEvents(page, size, title, city, uf, startDate, endDate);
         return ResponseEntity.ok(events);
+    }
+
+    @DeleteMapping("/{eventId}")
+    public ResponseEntity<Void> deleteEvent(@PathVariable UUID eventId) {
+        eventService.deleteEvent(eventId);
+        return ResponseEntity.noContent().build();
     }
 }

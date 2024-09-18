@@ -154,4 +154,11 @@ public class EventService {
                 );
 
     }
+
+    public Void deleteEvent(UUID eventId){
+        eventRepository.delete(eventRepository.findById(eventId)
+                .orElseThrow(() -> new IllegalArgumentException("Event not found")));
+
+        return null;
+    }
 }
