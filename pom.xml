@@ -75,6 +75,13 @@
 			<artifactId>aws-java-sdk-s3</artifactId>
 			<version>1.12.320</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-webflux -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webflux</artifactId>
+			<version>6.1.13</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
